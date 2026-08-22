@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Models;
+
+use Database\Factories\AnswerFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Answer extends Model
+{
+    /** @use HasFactory<AnswerFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'question_id',
+        'user_id',
+        'body',
+        'is_accepted',
+    ];
+
+    public function question(): BelongsTo
+    {
+        return $this->belongsTo(Question::class, 'question_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+}
