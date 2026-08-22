@@ -1,90 +1,145 @@
 <x-app-layout>
     <x-slot name="header">
         <div>
-            <p class="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">مرحبًا {{ Auth::user()->name }}</p>
+            @auth
+                <p class="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">مرحبًا {{ Auth::user()->name }}</p>
+            @else
+                <p class="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">تفاصيل السؤال</p>
+            @endauth
             <h1 class="text-2xl font-bold text-slate-950 sm:text-3xl">تفاصيل السؤال</h1>
             <p class="mt-2 text-sm leading-6 text-slate-500">اقرأ السؤال وقدم إجابتك.</p>
         </div>
     </x-slot>
 
-    <div class="mx-auto max-w-2xl px-4 py-10 sm:px-6 lg:px-8">
-        <div class="bg-white rounded-xl shadow-lg p-8 border border-slate-200">
-            <div class="mb-6">
-                <h2 class="text-2xl font-bold text-slate-900 mb-2">{{ $question->title }}</h2>
-                <p class="text-slate-500 leading-relaxed">{{ strip_tags($question->body) }}</p>
+    <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+        @if(session('success'))
+            <div class="mb-6 rounded-2xl bg-emerald-50 border border-emerald-200 px-4 py-3 text-sm font-semibold text-emerald-800">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div class="mb-6 rounded-2xl bg-red-50 border border-red-200 px-4 py-3 text-sm font-semibold text-red-800">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        {{-- Question Card --}}
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="p-6 sm:p-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center overflow-hidden">
+                        @if($question->user->avatar)
+                            <img src="{{ $question->user->avatar }}" alt="{{ $question->user->name }}" class="w-full h-full object-cover">
+                        @else
+                            <span class="text-indigo-600 font-bold text-sm">{{ mb_substr($question->user->name, 0, 1) }}</span>
+                        @endif
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold text-slate-900">{{ $question->user->name }}</p>
+                        <p class="text-xs text-slate-500">@ {{ $question->user->username }} · {{ $question->created_at->diffForHumans() }} · {{ $question->user->reputation_points }} نقطة</p>
+                    </div>
+                </div>
+
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 leading-relaxed">{{ $question->title }}</h2>
+                <p class="mt-4 text-slate-600 leading-8 whitespace-pre-line">{{ $question->body }}</p>
 
                 @if($question->image)
-                    <div class="mt-4">
-                        <img src="{{ asset('storage/'.$question->image) }}"
-                             class="w-full rounded-lg my-4 border border-indigo-200"
-                             alt="صورة السؤال">
+                    <div class="mt-6">
+                        @if(Str::startsWith($question->image, ['http://', 'https://']))
+                            <img src="{{ $question->image }}" class="w-full rounded-2xl border border-slate-200" alt="صورة السؤال">
+                        @else
+                            <img src="{{ asset('storage/'.$question->image) }}" class="w-full rounded-2xl border border-slate-200" alt="صورة السؤال">
+                        @endif
                     </div>
                 @endif
-
-                <div class="mt-6 pt-6 border-t border-slate-100">
-                    <h3 class="text-slate-700 font-medium mb-3">إجابات {{ $question->answers->count() }} {{ $question->answers->count() == 1 ? 'إجابة' : 'إجابات' }}</h3>
-
-                    @foreach($question->answers as $answer)
-                        <div class="mb-4 p-4 bg-slate-50 rounded-lg border-l-4 border-indigo-500">
-                            <p class="text-slate-800">{{ nl2br(e($answer->body)) }}</p>
-                            <div class="mt-2 text-slate-500 text-sm">
-                                بواسطة <strong>{{ $answer->user->name }}</strong>
-                                @can('accept', $answer)
-                                    <a href="{{ route('answers.accept', $answer->id) }}"
-                       class="text-indigo-600 hover underline small">اعتماد كحل</a>
-                                @endcan
-                            </div>
-                        </div>
-                    @endforeach
-
-                    @if($question->user_id != auth()->id())
-                        @if(!$question->answers->where('is_accepted', true)->first())
-                            <form action="{{ route('answers.accept', $question->answers->first()) }}" method="POST" class="mt-4">
-                                @csrf
-                                <button type="submit"
-                                        class="w-full rounded-xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white">
-                                    اعتماد الإجابة الأولى
-                                </button>
-                            </form>
-                        @endif
-                        @unless($question->answers->where('is_accepted', true)->first())
-                            <p class="mt-2 text-sm text-slate-400">يمكنك اعتماد إجابة واحدة فقط</p>
-                        @endunless
-                        @unless($question->answers->where('is_accepted', true)->first())
-                            @if($question->answers->where('is_accepted', false)->first())
-                                <p class="mt-2 text-sm text-slate-400">يمكنك اعتماد <strong>{{ $question->answers->where('is_accepted', false)->first()->user->name }}</strong>'s answer</p>
-                            @endif
-                        @unless
-                        @endif
-                        @if($question->user_id != auth()->id())
-                            @if(!$question->answers->where('is_accepted', true)->first())
-                                <p class="mt-2 text-sm text-slate-400">يمكنك اعتماد <strong>{{ $question->answers->where('is_accepted', false)->first()->user->name }}</strong>'s answer</p>
-                            @endif
-                        @endif
-                    @endif
-                </div>
             </div>
 
-            @if(auth()->check() && auth()->id() != $question->user_id)
-                <div class="mt-8 pt-8 border-t border-slate-100">
-                    <h3 class="text-slate-700 font-medium mb-3">أضف إجابة جديدة</h3>
-                    <form action="{{ route('answers.store', $question->id) }}" method="POST" class>
-                        @csrf
-                        <textarea name="body" rows="3"
-                                  class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition required"
-                                  placeholder="اكتب إجابتك هنا..."></textarea>
-                        @error('body')
-                            <p class="mt-2 text-red-600 text-sm">{{ $error }}</p>
-                        @enderror
-                        <div class="mt-4">
-                            <button type="submit"
-                                    class="w-full rounded-xl bg-indigo-600 px-5 py-3 text-sm font-bold text-white">
-                                إضافة إجابة
-                            </button>
-                        </div>
-                    </form>
+            {{-- Answers Section --}}
+            <div class="bg-slate-50 border-t border-slate-200 px-6 py-6 sm:px-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-base font-bold text-slate-900">الإجابات ({{ $question->answers->count() }})</h3>
+                    @if($question->answers->where('is_accepted', true)->count() > 0)
+                        <span class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-700">
+                            <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            يوجد حل معتمد
+                        </span>
+                    @endif
                 </div>
-            @endif
+
+                @forelse($question->answers as $answer)
+                    <div class="mb-4 rounded-2xl bg-white border p-5 {{ $answer->is_accepted ? 'border-emerald-300 bg-emerald-50/50' : 'border-slate-200' }}">
+                        @if($answer->is_accepted)
+                            <div class="mb-3 inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1 text-xs font-bold text-white">
+                                ✓ حل معتمد
+                            </div>
+                        @endif
+                        <p class="text-slate-800 leading-7 whitespace-pre-line">{{ $answer->body }}</p>
+                        <div class="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 pt-4">
+                            <div class="flex items-center gap-2 text-xs text-slate-500">
+                                <span class="w-7 h-7 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-600">{{ mb_substr($answer->user->name, 0, 1) }}</span>
+                                <span class="font-semibold text-slate-700">{{ $answer->user->name }}</span>
+                                <span>· {{ $answer->user->reputation_points }} نقطة</span>
+                                <span>· {{ $answer->created_at->diffForHumans() }}</span>
+                            </div>
+                            @auth
+                                @can('accept', $answer)
+                                    @if(!$answer->is_accepted && $question->answers->where('is_accepted', true)->count() == 0)
+                                        <form method="POST" action="{{ route('answers.accept', $answer) }}">
+                                            @csrf
+                                            <button type="submit" class="inline-flex items-center gap-1 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-700 transition">
+                                                اعتماد كحل (+10 نقاط)
+                                            </button>
+                                        </form>
+                                    @endif
+                                @endcan
+                            @endauth
+                        </div>
+                    </div>
+                @empty
+                    <div class="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center">
+                        <p class="text-sm text-slate-500">لا توجد إجابات بعد. كن أول من يجيب!</p>
+                    </div>
+                @endforelse
+
+                {{-- Add Answer Form --}}
+                @auth
+                    @if(auth()->id() !== $question->user_id)
+                        <div class="mt-8 rounded-2xl bg-white border border-slate-200 p-6">
+                            <h4 class="font-bold text-slate-900 mb-3">أضف إجابتك</h4>
+                            <form method="POST" action="{{ route('answers.store', $question) }}">
+                                @csrf
+                                <textarea name="body" rows="4" required
+                                    class="w-full rounded-xl border-slate-300 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500 @error('body') border-red-300 @enderror"
+                                    placeholder="اكتب إجابتك هنا minimum 5 أحرف...">{{ old('body') }}</textarea>
+                                @error('body')
+                                    <p class="mt-2 text-xs font-semibold text-red-600">{{ $message }}</p>
+                                @enderror
+                                <div class="mt-4 flex justify-end">
+                                    <button type="submit" class="rounded-xl bg-indigo-600 px-6 py-2.5 text-sm font-bold text-white hover:bg-indigo-700 transition">
+                                        إرسال الإجابة
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    @else
+                        <div class="mt-6 rounded-xl bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-800">
+                            أنت صاحب السؤال، لا يمكنك الإجابة على سؤالك الخاص.
+                        </div>
+                    @endif
+                @else
+                    <div class="mt-6 rounded-2xl bg-indigo-50 border border-indigo-200 p-6 text-center">
+                        <p class="text-sm text-slate-600">يجب تسجيل الدخول لإضافة إجابة</p>
+                        <a href="{{ route('login') }}" class="mt-3 inline-flex rounded-xl bg-indigo-600 px-5 py-2 text-sm font-bold text-white hover:bg-indigo-700 transition">تسجيل الدخول</a>
+                    </div>
+                @endauth
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-between">
+            <a href="{{ route('questions.index') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition">
+                <svg class="size-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+                العودة للأسئلة
+            </a>
         </div>
     </div>
 </x-app-layout>
