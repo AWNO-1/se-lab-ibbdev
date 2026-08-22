@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Contracts\AnswerServiceInterface;
 use App\Contracts\QuestionServiceInterface;
 use App\Contracts\ReputationServiceInterface;
+use App\Models\Answer;
+use App\Policies\AnswerPolicy;
 use App\Services\AnswerService;
 use App\Services\QuestionService;
 use App\Services\ReputationService;
-use Illuminate\Support\Facades\Policy;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -39,12 +41,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
-        $this->registerPolicies();
-    }
-
-    protected function registerPolicies(): void
-    {
-        Policy::for(Answer::class, AnswerPolicy::class);
+        Gate::policy(Answer::class, AnswerPolicy::class);
     }
 }
