@@ -3,7 +3,7 @@
 namespace App\Contracts;
 
 use App\Models\Question;
-use Illuminate\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 interface QuestionServiceInterface
 {
