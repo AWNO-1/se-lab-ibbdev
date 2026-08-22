@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="scroll-smooth">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'مساحة المهام') }}</title>
+        <title>{{ config('app.name', 'IBBDev') }}</title>
 
         {{-- خط عربي واضح ومناسب للواجهات الحديثة. --}}
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -14,8 +14,8 @@
         {{-- تحميل ملفات Tailwind وJavaScript من خلال Vite. --}}
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-slate-900 antialiased">
-        <div class="relative min-h-screen overflow-hidden bg-slate-50">
+    <body class="font-sans text-slate-900 antialiased bg-slate-50">
+        <div class="flex min-h-screen flex-col">
             <div class="pointer-events-none absolute inset-x-0 top-0 -z-0 h-96 bg-gradient-to-b from-indigo-100/70 via-violet-50/40 to-transparent"></div>
 
             @include('layouts.navigation')
@@ -30,9 +30,12 @@
             @endisset
 
             {{-- المحتوى الرئيسي لكل صفحة. --}}
-            <main class="relative z-10">
+            <main class="relative z-10 flex-1">
                 {{ $slot }}
             </main>
+
+            {{-- التذييل --}}
+            @include('components.footer')
         </div>
     </body>
 </html>
