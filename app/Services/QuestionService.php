@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Contracts\QuestionServiceInterface;
 use App\Contracts\ReputationServiceInterface;
 use App\Models\Question;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 
 class QuestionService implements QuestionServiceInterface
 {
