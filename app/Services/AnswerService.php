@@ -9,7 +9,7 @@ use App\Models\Question;
 
 class AnswerService implements AnswerServiceInterface
 {
-    protected ReputationServiceInterface $reputationService;
+    public ReputationServiceInterface $reputationService;
 
     public function __construct(ReputationServiceInterface $reputationService)
     {
