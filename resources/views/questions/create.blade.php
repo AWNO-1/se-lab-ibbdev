@@ -13,24 +13,27 @@
                 @csrf
 
                 <div class="mb-4">
-                    <label class="block text-slate-700 font-medium mb-2">عنوان السؤال</label>
-                    <input type="text" name="title" class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition" required>
+                    <label class="block text-slate-700 font-medium mb-2">عنوان السؤال <span class="text-red-500">*</span></label>
+                    <input type="text" name="title" value="{{ old('title') }}" class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition @error('title') border-red-300 @enderror" required>
                     @error('title')
-                        <p class="mt-2 text-red-600 text-sm">{{ $error }}</p>
+                        <p class="mt-2 text-red-600 text-sm">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="mb-4">
-                    <label class="block text-slate-700 font-medium mb-2">وصف السؤال</label>
-                    <textarea name="body" rows="4" class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition required"></textarea>
+                    <label class="block text-slate-700 font-medium mb-2">وصف السؤال <span class="text-red-500">*</span></label>
+                    <textarea name="body" rows="4" class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition @error('body') border-red-300 @enderror" required>{{ old('body') }}</textarea>
                     @error('body')
-                        <p class="mt-2 text-red-600 text-sm">{{ $error }}</p>
+                        <p class="mt-2 text-red-600 text-sm">{{ $message }}</p>
                     @enderror
                 </div>
 
                 <div class="mb-4">
                     <label class="block text-slate-700 font-medium mb-2">صورة إضافية (اختياري)</label>
-                    <input type="file" name="image" class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+                    <input type="file" name="image" accept="image/*" class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition @error('image') border-red-300 @enderror">
+                    @error('image')
+                        <p class="mt-2 text-red-600 text-sm">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="flex gap-3">
