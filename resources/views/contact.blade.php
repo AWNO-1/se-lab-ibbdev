@@ -108,7 +108,7 @@
                         </div>
                         <div class="flex gap-3">
                             <span class="size-8 rounded-lg bg-white/10 flex items-center justify-center">💬</span>
-                            <div><p class="font-bold">المجتمع</p><p class="text-slate-300">انضم إلى نقاشات <a href="{{ route('questions.index') }}" class="underline decoration-indigo-400">الأسئلة</a> للحصول على رد أسرع.</p></div>
+                            <div><p class="font-bold">المجتمع</p><p class="text-slate-300">انضم إلى نقاشات <a href="{{ route('posts.index') }}" class="underline decoration-indigo-400">الأسئلة</a> للحصول على رد أسرع.</p></div>
                         </div>
                     </div>
                     <div class="mt-6 rounded-xl bg-white/5 p-4 ring-1 ring-white/10">
