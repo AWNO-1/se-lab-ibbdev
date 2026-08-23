@@ -20,9 +20,13 @@
                         class="{{ request()->routeIs('welcome') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }} rounded-xl px-4 py-2.5 text-sm font-semibold transition">
                         الرئيسية
                     </a>
-                    <a href="{{ route('questions.index') }}"
-                        class="{{ request()->routeIs('questions.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }} rounded-xl px-4 py-2.5 text-sm font-semibold transition">
+                    <a href="{{ route('posts.index') }}"
+                        class="{{ request()->routeIs('posts.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }} rounded-xl px-4 py-2.5 text-sm font-semibold transition">
                         الأسئلة
+                    </a>
+                    <a href="{{ route('users.index') }}"
+                        class="{{ request()->routeIs('users.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }} rounded-xl px-4 py-2.5 text-sm font-semibold transition">
+                        المجتمع
                     </a>
                     <a href="{{ route('about') }}"
                         class="{{ request()->routeIs('about') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900' }} rounded-xl px-4 py-2.5 text-sm font-semibold transition">
@@ -44,7 +48,7 @@
             {{-- قائمة المستخدم في الشاشات المتوسطة والكبيرة. --}}
             <div class="hidden items-center gap-3 md:flex">
                 @auth
-                    <a href="{{ route('questions.create') }}"
+                    <a href="{{ route('posts.create') }}"
                         class="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-slate-300 transition hover:-translate-y-0.5 hover:bg-indigo-700">
                         <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15" />
@@ -115,8 +119,11 @@
             <a href="{{ route('welcome') }}" class="block rounded-xl px-4 py-3 text-sm font-semibold {{ request()->routeIs('welcome') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-100' }}">
                 الرئيسية
             </a>
-            <a href="{{ route('questions.index') }}" class="block rounded-xl px-4 py-3 text-sm font-semibold {{ request()->routeIs('questions.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-100' }}">
+            <a href="{{ route('posts.index') }}" class="block rounded-xl px-4 py-3 text-sm font-semibold {{ request()->routeIs('posts.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-100' }}">
                 الأسئلة
+            </a>
+            <a href="{{ route('users.index') }}" class="block rounded-xl px-4 py-3 text-sm font-semibold {{ request()->routeIs('users.*') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-100' }}">
+                المجتمع
             </a>
             <a href="{{ route('about') }}" class="block rounded-xl px-4 py-3 text-sm font-semibold {{ request()->routeIs('about') ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-100' }}">
                 من نحن
@@ -131,7 +138,7 @@
                 <a href="{{ route('dashboard') }}" class="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">
                     لوحة التحكم
                 </a>
-                <a href="{{ route('questions.create') }}" class="block rounded-xl bg-indigo-600 px-4 py-3 text-center text-sm font-semibold text-white">
+                <a href="{{ route('posts.create') }}" class="block rounded-xl bg-indigo-600 px-4 py-3 text-center text-sm font-semibold text-white">
                     سؤال جديد
                 </a>
             @else
