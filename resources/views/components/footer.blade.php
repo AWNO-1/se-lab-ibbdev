@@ -43,8 +43,8 @@
             <div>
                 <h4 class="text-sm font-black text-white">المنتج</h4>
                 <ul class="mt-4 space-y-2.5 text-sm">
-                    <li><a href="{{ route('questions.index') }}" class="hover:text-white transition">الأسئلة</a></li>
-                    <li><a href="{{ route('questions.create') }}" class="hover:text-white transition">اطرح سؤالاً</a></li>
+                    <li><a href="{{ route('posts.index') }}" class="hover:text-white transition">الأسئلة</a></li>
+                    <li><a href="{{ route('posts.create') }}" class="hover:text-white transition">اطرح سؤالاً</a></li>
                     <li><a href="{{ route('faqs') }}" class="hover:text-white transition">الأسئلة الشائعة</a></li>
                     <li><a href="#" class="hover:text-white transition">لوحة الشرف</a></li>
                 </ul>
