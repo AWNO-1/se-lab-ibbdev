@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Answer;
-use App\Models\Question;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +15,7 @@ class AnswerSeeder extends Seeder
     public function run(): void
     {
         $user = User::where('email', 'saherqaid2020@gmail.com')->first();
-        $questions = Question::all();
+        $questions = Post::all();
 
         if (! $user || $questions->isEmpty()) {
             return;
