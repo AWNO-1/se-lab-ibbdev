@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'username', 'avatar', 'reputation_points'])]
+#[Fillable(['name', 'email', 'password', 'username', 'avatar_path', 'reputation_points'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -32,13 +32,18 @@ class User extends Authenticatable
         ];
     }
 
-    public function questions(): HasMany
+    public function posts(): HasMany
     {
-        return $this->hasMany(Question::class, 'user_id');
+        return $this->hasMany(Post::class, 'user_id');
     }
 
     public function answers(): HasMany
     {
         return $this->hasMany(Answer::class, 'user_id');
+    }
+
+    public function reputationLogs(): HasMany
+    {
+        return $this->hasMany(ReputationLog::class, 'user_id');
     }
 }
