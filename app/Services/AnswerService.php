@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Contracts\AnswerServiceInterface;
 use App\Contracts\ReputationServiceInterface;
 use App\Models\Answer;
-use App\Models\Question;
+use App\Models\Post;
 
 class AnswerService implements AnswerServiceInterface
 {
@@ -16,16 +16,16 @@ class AnswerService implements AnswerServiceInterface
         $this->reputationService = $reputationService;
     }
 
-    public function createAnswer(array $data, int $questionId, int $userId): Answer
+    public function createAnswer(array $data, int $postId, int $userId): Answer
     {
-        $question = Question::find($questionId);
+        $post = Post::find($postId);
 
-        if (! $question || $question->user_id == $userId) {
-            throw new \Exception('Cannot post answer to own question');
+        if (! $post || $post->user_id == $userId) {
+            throw new \Exception('Cannot post answer to own post');
         }
 
         $answer = Answer::create([
-            'question_id' => $questionId,
+            'post_id' => $postId,
             'user_id' => $userId,
             'body' => $data['body'],
         ]);
@@ -35,15 +35,15 @@ class AnswerService implements AnswerServiceInterface
 
     public function canUserAccept(int $userId, int $answerId): bool
     {
-        $answer = Answer::with('question.user')->find($answerId);
+        $answer = Answer::with('post.user')->find($answerId);
 
-        return $answer && $answer->question->user_id == $userId;
+        return $answer && $answer->post->user_id == $userId;
     }
 
-    public function canUserPostAnswer(int $userId, int $questionId): bool
+    public function canUserPostAnswer(int $userId, int $postId): bool
     {
-        $question = Question::find($questionId);
+        $post = Post::find($postId);
 
-        return $question && $question->user_id != $userId;
+        return $post && $post->user_id != $userId;
     }
 }
