@@ -13,15 +13,22 @@ class Answer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'question_id',
+        'post_id',
         'user_id',
         'body',
         'is_accepted',
     ];
 
-    public function question(): BelongsTo
+    protected function casts(): array
     {
-        return $this->belongsTo(Question::class, 'question_id');
+        return [
+            'is_accepted' => 'boolean',
+        ];
+    }
+
+    public function post(): BelongsTo
+    {
+        return $this->belongsTo(Post::class, 'post_id');
     }
 
     public function user(): BelongsTo
