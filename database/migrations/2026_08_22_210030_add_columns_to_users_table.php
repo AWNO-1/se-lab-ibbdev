@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('username')->unique()->nullable()->after('name');
-            $table->string('avatar')->nullable();
+            $table->string('avatar_path')->nullable();
             $table->unsignedInteger('reputation_points')->default(0);
         });
     }
@@ -24,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['username', 'avatar', 'reputation_points']);
+            $table->dropColumn(['username', 'avatar_path', 'reputation_points']);
         });
     }
 };
