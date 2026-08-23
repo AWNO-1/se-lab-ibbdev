@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,13 +26,21 @@ Route::get('/faqs', function () {
     return view('faqs');
 })->name('faqs');
 
-Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
-Route::get('/questions/create', [QuestionController::class, 'create'])->name('questions.create')->middleware('auth');
-Route::get('/questions/{question}', [QuestionController::class, 'show'])->name('questions.show');
+// ===== Users (المجتمع) =====
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
+// ===== Posts (جدول الأسئلة) =====
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create')->middleware('auth');
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 Route::middleware('auth')->group(function () {
-    Route::post('/questions', [QuestionController::class, 'store'])->name('questions.store');
-    Route::post('/questions/{question}/answers', [AnswerController::class, 'store'])->name('answers.store');
+    Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+    Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    Route::match(['put', 'patch'], '/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::post('/posts/{post}/answers', [AnswerController::class, 'store'])->name('answers.store');
     Route::post('/answers/{answer}/accept', [AnswerController::class, 'accept'])->name('answers.accept');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
