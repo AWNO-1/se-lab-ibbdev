@@ -20,7 +20,7 @@ class AnswerPolicy
      */
     public function view(User $user, Answer $answer): bool
     {
-        return $user->id === $answer->question->user_id;
+        return $user->id === $answer->post->user_id;
     }
 
     /**
@@ -68,6 +68,6 @@ class AnswerPolicy
      */
     public function accept(User $user, Answer $answer): bool
     {
-        return $user->id === $answer->question->user_id;
+        return $user->id === $answer->post->user_id;
     }
 }
