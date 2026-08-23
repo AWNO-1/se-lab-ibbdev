@@ -16,7 +16,7 @@
                 <div class="mt-6 flex flex-wrap justify-center gap-2 text-xs">
                     <span class="text-slate-400">الأكثر بحثاً:</span>
                     <a href="#reputation" class="rounded-full bg-white/10 px-3 py-1 font-bold text-white hover:bg-white/20 transition">النقاط</a>
-                    <a href="#questions" class="rounded-full bg-white/10 px-3 py-1 font-bold text-white hover:bg-white/20 transition">طرح سؤال</a>
+                    <a href="#posts" class="rounded-full bg-white/10 px-3 py-1 font-bold text-white hover:bg-white/20 transition">طرح سؤال</a>
                     <a href="#account" class="rounded-full bg-white/10 px-3 py-1 font-bold text-white hover:bg-white/20 transition">إنشاء حساب</a>
                 </div>
             </div>
@@ -29,7 +29,7 @@
             <div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide" x-data="{ active: 'all' }">
                 <button @click="active='all'" :class="active==='all' ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200'" class="shrink-0 rounded-full px-5 py-2 text-sm font-bold transition">الكل</button>
                 <button @click="active='account'" :class="active==='account' ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200'" class="shrink-0 rounded-full px-5 py-2 text-sm font-bold transition">الحساب</button>
-                <button @click="active='questions'" :class="active==='questions' ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200'" class="shrink-0 rounded-full px-5 py-2 text-sm font-bold transition">الأسئلة</button>
+                <button @click="active='posts'" :class="active==='posts' ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200'" class="shrink-0 rounded-full px-5 py-2 text-sm font-bold transition">الأسئلة</button>
                 <button @click="active='reputation'" :class="active==='reputation' ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200'" class="shrink-0 rounded-full px-5 py-2 text-sm font-bold transition">النقاط</button>
                 <button @click="active='tech'" :class="active==='tech' ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200'" class="shrink-0 rounded-full px-5 py-2 text-sm font-bold transition">تقني</button>
             </div>
@@ -79,13 +79,13 @@
                 </div>
             </div>
 
-            {{-- Questions --}}
-            <div id="questions">
+            {{-- posts --}}
+            <div id="posts">
                 <h2 class="text-sm font-black tracking-widest text-violet-600">الأسئلة والإجابات</h2>
                 <div class="mt-3 space-y-3">
                     @php
                         $faqsQ = [
-                            ['q'=>'كيف أطرح سؤالاً مع صورة؟','a'=>'من “سؤال جديد” املأ العنوان (max 255) والوصف (min 10) واختر صورة (image, max 2MB). تُحفظ عبر $request->file(image)->store(questions,public).'],
+                            ['q'=>'كيف أطرح سؤالاً مع صورة؟','a'=>'من “سؤال جديد” املأ العنوان (max 255) والوصف (min 10) واختر صورة (image, max 2MB). تُحفظ عبر $request->file(image)->store(posts,public).'],
                             ['q'=>'لماذا لا أستطيع الإجابة على سؤالي؟','a'=>'لضمان الحياد، يمنع النظام الإجابة على سؤالك الخاص. ستظهر رسالة “لا يمكنك الإجابة على سؤالك الخاص”.'],
                             ['q'=>'كيف أعتمد إجابة كحل؟','a'=>'إذا كنت صاحب السؤال، ستجد زر “اعتماد كحل (+10)” تحت كل إجابة غير معتمدة. زر واحد فقط لكل سؤال. سيُمنح صاحب الإجابة 10 نقاط تلقائياً عبر ReputationService.'],
                             ['q'=>'هل يمكنني تعديل سؤالي بعد نشره؟','a'=>'حالياً الإصدار لا يدعم التعديل/الحذف — نعمل على إضافة Policy خاصة للمالك فقط.'],
@@ -170,7 +170,7 @@
             </div>
             <div class="flex gap-3 shrink-0">
                 <a href="{{ route('contact') }}" class="rounded-xl bg-white px-6 py-3 text-sm font-black text-indigo-600 hover:bg-indigo-50 transition">تواصل معنا</a>
-                <a href="{{ route('questions.index') }}" class="rounded-xl bg-indigo-700 px-6 py-3 text-sm font-bold text-white ring-1 ring-white/20 hover:bg-indigo-800 transition">تصفح الأسئلة</a>
+                <a href="{{ route('posts.index') }}" class="rounded-xl bg-indigo-700 px-6 py-3 text-sm font-bold text-white ring-1 ring-white/20 hover:bg-indigo-800 transition">تصفح الأسئلة</a>
             </div>
         </div>
     </div>
