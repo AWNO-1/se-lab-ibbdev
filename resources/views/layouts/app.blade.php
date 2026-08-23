@@ -34,6 +34,22 @@
                 {{ $slot }}
             </main>
 
+            {{-- Toasts - تظهر لمدة 5 ثوانٍ مع حركة ناعمة --}}
+            <div class="pointer-events-none fixed top-4 inset-x-4 sm:inset-x-auto sm:end-4 z-50 flex flex-col gap-3 w-auto sm:w-96">
+                @if(session('success'))
+                    <x-toast type="success" :message="session('success')" />
+                @endif
+                @if(session('error'))
+                    <x-toast type="error" :message="session('error')" />
+                @endif
+                @if(session('status') && session('status') !== 'profile-updated')
+                    <x-toast type="info" :message="session('status')" />
+                @endif
+                @if($errors->any() && !session('success'))
+                    <x-toast type="error" :message="$errors->first()" />
+                @endif
+            </div>
+
             {{-- التذييل --}}
             @include('components.footer')
         </div>
