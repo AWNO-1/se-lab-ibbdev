@@ -10,7 +10,7 @@
                 <p class="mt-5 text-lg leading-8 text-slate-300">IBBDev وُلدت داخل معامل هندسة البرمجيات — من فكرة طلاب إلى منصة حقيقية تطبق SOLID, Service Layer, DI, و Blade باحترافية.</p>
                 <div class="mt-8 flex flex-wrap gap-3">
                     <a href="{{ route('contact') }}" class="rounded-2xl bg-white px-7 py-3 text-sm font-black text-slate-900 hover:bg-slate-100 transition">تواصل معنا</a>
-                    <a href="{{ route('questions.index') }}" class="rounded-2xl bg-white/10 px-7 py-3 text-sm font-bold text-white ring-1 ring-white/20 hover:bg-white/20 transition">استعرض الأسئلة</a>
+                    <a href="{{ route('posts.index') }}" class="rounded-2xl bg-white/10 px-7 py-3 text-sm font-bold text-white ring-1 ring-white/20 hover:bg-white/20 transition">استعرض الأسئلة</a>
                 </div>
             </div>
             <div class="mt-10 grid grid-cols-3 gap-6 max-w-xl border-t border-white/10 pt-8">
