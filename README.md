@@ -64,8 +64,8 @@
 ### 1. تنزيل المستودع والدخول إلى مجلده
 
 ```bash
-git clone https://github.com/Qaidsaher/software-engineering-lab1.git
-cd software-engineering-lab1
+git clone https://github.com/Qaidsaher/IBBDev.git
+cd IBBDev
 ```
 
 ### 2. تثبيت حزم PHP
@@ -1071,5 +1071,6 @@ $pendingTasksCount = $tasksCount - $completedTasksCount;
 **بالتوفيق للفرق جميعًا! 💪**
 
 </div>
-#   I B B D e v  
+#   I B B D e v 
+ 
  
