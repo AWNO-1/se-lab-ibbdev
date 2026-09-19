@@ -1,6 +1,11 @@
-vendor/
+/vendor/
 node_modules/
-*.env*
-database.sqlite
+.env
+.env.backup
+.env.production
+*.sqlite
+*.sqlite-journal
+database/*.sqlite*
+/public/build/
 storage/app/public/storage
 *.php.unit
